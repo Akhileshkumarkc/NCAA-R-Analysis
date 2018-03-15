@@ -23,6 +23,8 @@ combinedData = rbind(myDataWin,myDataLose)
 
 dim(combinedData)
 #######################
+#Data Wrangling4
+#######################################
 winColumns = c("Season" ,"Daynum", "Wteam"  ,"Wscore" , "Wloc" ,  "Numot",  "Wfgm" ,  "Wfga" ,  "Wfgm3",  "Wfga3",  "Wftm",  
                "Wfta" ,  "Wor"  ,  "Wdr"  ,  "Wast" ,  "Wto" ,    "Wstl"  , "Wblk",   "Wpf")
 
@@ -46,4 +48,23 @@ combinedAggrData <- aggregate.data.frame(
 finalCombined = c ("Season", "team"  ,"score",  "Numot",  "fgm" ,  "fga" ,  "fgm3",  "fga3",  "ftm",  
                    "fta" ,  "or"  ,  "dr"  ,  "ast" ,  "to" ,    "stl"  , "blk",   "pf")
 
-names(combinedAggrData) <- finalCombined
+colnames(combinedAggrData) = finalCombined
+
+summary(combinedAggrData)
+########################
+# Clustering
+###########################
+combinedAggrDataFrame = data.frame(model.matrix(~., data=combinedAggrData)[,-1])
+head(combinedAggrDataFrame)
+# load the data into cluster then 
+myDataCluster = combinedAggrDataFrame
+myDataCluster[,c(1:2)]<-NULL
+myDataclusterScale = scale(myDataCluster)
+myDataclusterScale
+
+# euclidean distance
+myDataClusterDistEuclMM = dist(myDataclusterScale, method = "euclidian")
+# Cluster using Hclust
+fitMMEucl = hclust(d=myDataClusterDistEuclMM,method="ward.D2")
+plot(fitMMEucl, labels = FALSE)
+#unstaged
