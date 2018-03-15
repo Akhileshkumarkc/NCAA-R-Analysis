@@ -67,4 +67,17 @@ myDataClusterDistEuclMM = dist(myDataclusterScale, method = "euclidian")
 # Cluster using Hclust
 fitMMEucl = hclust(d=myDataClusterDistEuclMM,method="ward.D2")
 plot(fitMMEucl, labels = FALSE)
-#unstaged
+xMMEucl8=cutree(fitMMEucl,8)
+xMMEucl7=cutree(fitMMEucl,7)
+xMMEucl6=cutree(fitMMEucl,6)
+plot(xMMEucl, labels = FALSE)
+y=combinedAggrData[xMMEucl == 1,]
+summary(y)
+y=combinedAggrData[xMMEucl == 2,]
+table(xMMEucl7,xMMEucl8)
+
+# attach cluster package.
+myclusterDaisy = daisy(myDataclusterScale)
+fitDaisy <-hclust(d=myclusterDaisy,method ="ward.D2")
+plot(fitDaisy,labels=FALSE)
+xDaisy = cutree(fitDaisy,7)
